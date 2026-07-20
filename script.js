@@ -152,3 +152,21 @@ let fetchCategories = () => {
   })
 }
 fetchCategories()
+
+// %Indiviual Category
+let categoryCards = document.querySelectorAll(".category-card")
+categoryCards.forEach((card)=>{
+card.addEventListener("click",()=>{
+  let categoryName = card.querySelector("img").alt
+  sessionStorage.setItem("ClickedCategory",categoryName)
+  fectingIndividualCategoryData() 
+  window.location.href = "product.html";
+})
+})
+
+async function fectingIndividualCategoryData(){
+  let categoryName = sessionStorage.getItem("ClickedCategory")
+  let response = await fetch(`https://dummyjson.com/products/category/${categoryName}`)
+  let {products} = await response.json()
+  sessionStorage.setItem("ClickedCategoryData",JSON.stringify(products))
+}
