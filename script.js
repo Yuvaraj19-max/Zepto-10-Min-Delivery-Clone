@@ -1,24 +1,26 @@
-// %Fetch Address Functionlity
-let userLocation =  document.getElementById("location")
-userLocation.addEventListener("click",()=>{
-    navigator.geolocation.getCurrentPosition((position)=>{
-        let latitude = position.coords.latitude
-        let longitude = position.coords.longitude
-        let locationApi = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`
-        let fetchingArea = async()=>{
-            let response = await fetch(locationApi)
-            let {address:{suburb,city}} = await response.json()
-            userLocation.innerHTML=`<i class="fa-solid fa-location-dot"></i> ${suburb},${city}`
-        }
-        fetchingArea()
-    })
+//@!Fetch Address Functionality
+let userLocation = document.getElementById("location")
+userLocation.addEventListener("click", () => {
+  userLocation.innerHTML = "Fetching Location..."
+  navigator.geolocation.getCurrentPosition((position) => {
+    let latitude = position.coords.latitude
+    let longitude = position.coords.longitude
+    let locationApi = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`
+    let fetchingArea = async () => {
+      let response = await fetch(locationApi)
+      let { address: { suburb, city } } = await response.json()
+      userLocation.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${suburb}, ${city}`
+    }
+    fetchingArea()
+  })
 })
-//$Category Thumbnails
+
+//@!Category Thumbnails
 let thumbnails = [
   {
     slug: "beauty",
     name: "Beauty",
-    url: "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp", 
+    url: "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
   },
   {
     slug: "fragrances",
@@ -137,14 +139,14 @@ let thumbnails = [
   }
 ]
 
-// % Fecting Categories
+//@! Fetching Categories
 let fetchCategories = () => {
   let categoryItems = document.getElementById("category-items")
   thumbnails.forEach((category) => {
-     categoryItems.innerHTML += `
+    categoryItems.innerHTML += `
       <div class="category-card">
          <div class="category-img">
-           <img src=${category.url} alt=${category.slug} height=>
+           <img src=${category.url} alt=${category.slug} >
          </div>
          <p class="category-name">${category.name}</p>
        </div> 
@@ -153,20 +155,22 @@ let fetchCategories = () => {
 }
 fetchCategories()
 
-// %Indiviual Category
+//@!Individual Category
 let categoryCards = document.querySelectorAll(".category-card")
-categoryCards.forEach((card)=>{
-card.addEventListener("click",()=>{
-  let categoryName = card.querySelector("img").alt
-  sessionStorage.setItem("ClickedCategory",categoryName)
-  fectingIndividualCategoryData() 
-  window.location.href = "product.html";
-})
+categoryCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    let categoryName = card.querySelector("img").alt
+    sessionStorage.setItem("clickedCategory", categoryName)
+    fetchingIndividualCategoryData()
+    setTimeout(() => {
+      location.assign("./Category.html")
+    },2000)
+  })
 })
 
-async function fectingIndividualCategoryData(){
-  let categoryName = sessionStorage.getItem("ClickedCategory")
+async function fetchingIndividualCategoryData() {
+  let categoryName = sessionStorage.getItem("clickedCategory")
   let response = await fetch(`https://dummyjson.com/products/category/${categoryName}`)
-  let {products} = await response.json()
-  sessionStorage.setItem("ClickedCategoryData",JSON.stringify(products))
+  let { products } = await response.json()
+  localStorage.setItem("clickedCategoryData", JSON.stringify(products))
 }
