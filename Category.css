@@ -140,6 +140,9 @@ nav{
 input {
   accent-color: rgb(96, 8, 198);
 }
+.clicked{
+  color: red;
+}
 #sidebar-two {
   flex-basis: 80%;
   display: grid;
@@ -147,7 +150,7 @@ input {
 }
 
 .product-cards {
-  height: 20rem;
+  height: 22rem;
   width: 15rem;
   border-radius: 10px;
   background-color: #fff;
