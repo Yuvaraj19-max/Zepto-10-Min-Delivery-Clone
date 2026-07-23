@@ -43,11 +43,13 @@ function displayingProducts (products){
       </article>
   `
 })
+wishilisticon()
 }
 displayingProducts (productDatas)
 
 
 // @? Wishlist
+function wishilisticon(){
 let wishListIcons = document.querySelectorAll(".wishlist>i")
 wishListIcons.forEach((item)=>{
   console.log(item)
@@ -55,7 +57,7 @@ wishListIcons.forEach((item)=>{
     item.classList.toggle("clicked")
   })
 })
-
+}
 // @? Fliter Functionality
 let relevance = document.getElementById("relevance")
 let priceAsc = document.getElementById("priceAsc")
