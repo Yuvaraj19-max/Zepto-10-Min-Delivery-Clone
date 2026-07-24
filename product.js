@@ -16,10 +16,26 @@ userLocation.addEventListener("click",()=>{
 })
 
 // %Displaying Product
-async function displayingProducts(){
-    let response = await fetch("https://dummyjson.com/products?limit=194")
-    let {products} =await response.json()
-    let productSecton = document.getElementById("product-section-2")
+let allProducts = []
+async function displayingProducts() {
+  let response = await fetch("https://dummyjson.com/products?limit=194")
+  let { products } = await response.json()
+  allProducts = products
+  renderProducts(allProducts)
+  let searchBar = document.querySelector("#product-section-1>input")
+  searchBar.addEventListener("input",(e)=>{
+    let searchValue = e.target.value.trim().toLowerCase()
+    let filteredProducts = allProducts.filter((item)=>{
+      return item.title.trim().toLowerCase().includes(searchValue)
+    })
+    renderProducts(filteredProducts)
+  })
+}
+displayingProducts()
+
+function renderProducts(products){
+   let productSecton = document.getElementById("product-section-2")
+   productSecton.innerHTML=""
     products.forEach((item)=>{
         productSecton.innerHTML += 
          `
@@ -45,13 +61,11 @@ async function displayingProducts(){
   })
   wishlistIcons()
 }
-displayingProducts()
 
 //@! Wishlist
 function wishlistIcons() {
   let wishListIcons = document.querySelectorAll(".wishlist>i")
   wishListIcons.forEach((item) => {
-    console.log(item)
     item.addEventListener("click", () => {
       item.classList.toggle("clicked")
     })
